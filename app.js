@@ -34,12 +34,17 @@ UI.prototype.showAlert = function(message, className){
     // Add text
     div.appendChild(document.createTextNode(message));
 
-    // Get parent
+    // Get parent and form
     const container = document.querySelector('.container');
     const form = document.querySelector('#book-form');
 
     // Insert div
     container.insertBefore(div, form);
+
+    // Timeout after 3 seconds
+    setTimeout(function(){
+        document.querySelector('.alert').remove();
+    }, 3000);
 }
 
 // Event Listeners
