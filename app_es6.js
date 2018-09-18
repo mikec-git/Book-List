@@ -54,6 +54,7 @@ class UI {
     }
 }
 
+// Instantiate UI
 const ui = new UI();
 
 // Event Listeners
