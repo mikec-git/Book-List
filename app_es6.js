@@ -82,10 +82,10 @@ class Store {
     }
 
     static removeBook(target){
-        if(target !== null){
-            const title = target.parentElement.parentElement.children[0].textContent;
-            const author = target.parentElement.parentElement.children[1].textContent;
-            const isbn = target.parentElement.parentElement.children[2].textContent;
+        if(target.className === 'delete'){
+            const title     = target.parentElement.parentElement.children[0].textContent;
+            const author    = target.parentElement.parentElement.children[1].textContent;
+            const isbn      = target.parentElement.parentElement.children[2].textContent;
             
             const books = this.getBooks();
             books.forEach(function(book, index){
