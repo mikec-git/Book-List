@@ -54,10 +54,57 @@ class UI {
     }
 }
 
+// Local storage class
+class Store {
+    static getBooks(){
+        let books;
+        if(localStorage.getItem('books') === null){
+            return books = [];
+        } else{
+            return books = JSON.parse(localStorage.getItem('books'));
+        }        
+    }
+
+    static displayBooks(){
+        const books = this.getBooks();
+
+        books.forEach(function(book){
+            ui.addBookToList(book);
+        });
+    }
+
+    static addBook(book){
+        if(book !== null){
+            const books = this.getBooks();
+            books.push(book);
+            localStorage.setItem('books', JSON.stringify(books));
+        }
+    }
+
+    static removeBook(target){
+        if(target !== null){
+            const title = target.parentElement.parentElement.children[0].textContent;
+            const author = target.parentElement.parentElement.children[1].textContent;
+            const isbn = target.parentElement.parentElement.children[2].textContent;
+            
+            const books = this.getBooks();
+            books.forEach(function(book, index){
+                if(book.title === title && book.author === author && book.isbn === isbn){
+                    books.splice(index,1);
+                }
+            });
+
+            localStorage.setItem('books', JSON.stringify(books));
+        }        
+    }
+}
+
 // Instantiate UI
 const ui = new UI();
 
 // Event Listeners
+document.addEventListener('DOMContentLoaded', Store.displayBooks());
+
 document.querySelector('#book-form').addEventListener('submit', function(e){
     e.preventDefault();
     
@@ -78,6 +125,8 @@ document.querySelector('#book-form').addEventListener('submit', function(e){
         ui.showAlert('Book added!', 'success');
         // Add book to list
         ui.addBookToList(book);
+        // Add to LS
+        Store.addBook(book);
         // Clear fields
         ui.clearFields();
     }    
@@ -85,5 +134,6 @@ document.querySelector('#book-form').addEventListener('submit', function(e){
 
 document.querySelector('#book-list').addEventListener('click', function(e){
     ui.deleteBook(e.target);
+    Store.removeBook(e.target);
     e.preventDefault();
 });
