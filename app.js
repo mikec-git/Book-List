@@ -7,6 +7,8 @@ function Book(title, author, isbn) {
 
 // UI Constructor
 function UI() {}
+// Instantiate UI
+const ui = new UI();
 
 UI.prototype.addBookToList = function(book){
     const list = document.querySelector('#book-list');
@@ -65,8 +67,6 @@ document.querySelector('#book-form').addEventListener('submit', function(e){
 
     // Instantiate book
     const book = new Book(title, author, isbn);
-    // Instantiate UI
-    const ui = new UI();
 
     // Validate
     if(title === '' || author === '' || isbn === ''){
