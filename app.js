@@ -26,6 +26,22 @@ UI.prototype.clearFields = function(){
     document.querySelector('#isbn').value = '';
 }
 
+UI.prototype.showAlert = function(message, className){
+    // Create div
+    const div = document.createElement('div');
+    // Add class name
+    div.className = `alert ${className}`;
+    // Add text
+    div.appendChild(document.createTextNode(message));
+
+    // Get parent
+    const container = document.querySelector('.container');
+    const form = document.querySelector('#book-form');
+
+    // Insert div
+    container.insertBefore(div, form);
+}
+
 // Event Listeners
 document.querySelector('#book-form').addEventListener('submit', function(e){
     e.preventDefault();
@@ -37,13 +53,18 @@ document.querySelector('#book-form').addEventListener('submit', function(e){
 
     // Instantiate book
     const book = new Book(title, author, isbn);
-    
     // Instantiate UI
     const ui = new UI();
 
-    // Add book to list
-    ui.addBookToList(book);
-    // Clear fields
-    ui.clearFields();
+    // Validate
+    if(title === '' || author === '' || isbn === ''){
+        // Error alert
+        ui.showAlert('Please fill in all fields', 'error');
+    } else{
+        // Add book to list
+        ui.addBookToList(book);
+        // Clear fields
+        ui.clearFields();
+    }
     
 });
